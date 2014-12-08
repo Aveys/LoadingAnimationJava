@@ -7,7 +7,7 @@ import java.util.*;
 
 import static java.lang.Math.PI;
 
-public class LoadingWavyPanel extends JPanel implements Runnable {
+public class LoadingWavyPanel extends JPanel implements Runnable{
     Thread runner;
 
     private int timeStep=0;
@@ -17,11 +17,10 @@ public class LoadingWavyPanel extends JPanel implements Runnable {
     public LoadingWavyPanel() {
         super();
         listBalls = new ArrayList<Ellipse2D.Double>();
-        for (int i=0;i<NB_BALL;i++){
-            listBalls.add(new Ellipse2D.Double(200 + 5 * i+30, getY(i, timeStep), BALL_HEIGHT, BALL_HEIGHT));
+        for (int i=0;i<NB_BALL;i++) {
+            listBalls.add(new Ellipse2D.Double(200 + 15 * i + 30, getY(i, timeStep), BALL_HEIGHT, BALL_HEIGHT));
         }
-        runner = new Thread(this);
-        runner.start();
+
     }
 
     public void paintComponent(Graphics comp) {
@@ -33,20 +32,23 @@ public class LoadingWavyPanel extends JPanel implements Runnable {
 
     }
 
-    public void run() {
-        Thread thisThread = Thread.currentThread();
-        while (runner == thisThread) {
+    public void moveBall(){
             for(int i=0;i<NB_BALL;i++){
                 listBalls.get(i).y=getY(i, timeStep);
             }
-            repaint();
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) { }
-        }
     }
-    public int getY(int i, int j)
+    public double getY(int i, int j)
     {
-        return (int)(260 + BALL_HEIGHT/2 * (1 + Math.sin((((timeStep * ((i / 500) + 0.02)) % 2) * PI))));
+        double debug = (260 + BALL_HEIGHT/2 * (1 + Math.sin((((timeStep * ((i / 500) + 0.02)) % (2 * PI))))));
+        return debug;
+    }
+
+    @Override
+    public void run() {
+        while(true){
+            repaint();
+            moveBall();
+            removeAll();
+        }
     }
 }
