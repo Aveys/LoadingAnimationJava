@@ -1,0 +1,20 @@
+private const NUM_BALL:int = 24;
+    private var loadingBall:Vector.<Shape> = new Vector.<Shape>(NUM_BALL);
+    private var timeStep:int = 0;
+    private const BALL_HEIGHT:int = 40;
+
+    public function animateBalls(e:Event):void
+    {
+        for (var i:int = 0; i < NUM_BALL; i++ )
+        {
+            loadingBall[i].graphics.clear();
+            loadingBall[i].graphics.beginFill(0x0B5F95);
+            loadingBall[i].graphics.drawCircle(455+5*i,getY(i,timeStep),2);
+        }
+        timeStep++;
+    }
+
+    public function getY(i:int, t:int):int
+    {
+        return 260 + BALL_HEIGHT/2 * (1 + Math.sin((timeStep * (i/500 + 0.02)) % 2*Math.PI));
+    }
