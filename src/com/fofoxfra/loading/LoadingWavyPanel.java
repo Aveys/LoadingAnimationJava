@@ -18,29 +18,37 @@ public class LoadingWavyPanel extends JPanel implements Runnable{
         super();
         listBalls = new ArrayList<Ellipse2D.Double>();
         for (int i=0;i<NB_BALL;i++) {
-            listBalls.add(new Ellipse2D.Double(200 + 15 * i + 30, getY(i, timeStep), BALL_HEIGHT, BALL_HEIGHT));
+            listBalls.add(new Ellipse2D.Double(100 + 15 * i + 30, getY(i, timeStep), BALL_HEIGHT, BALL_HEIGHT));
         }
 
     }
 
     public void paintComponent(Graphics comp) {
         Graphics2D g = (Graphics2D) comp;
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
         for(Ellipse2D.Double ep : listBalls){
-            g.draw(ep);
+            g.fill(ep);
+        }
+        try {
+            Thread.sleep(16);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         timeStep++;
 
     }
 
     public void moveBall(){
-            for(int i=0;i<NB_BALL;i++){
-                listBalls.get(i).y=getY(i, timeStep);
-            }
+        for(int i=0;i<NB_BALL;i++){
+            listBalls.get(i).y=getY(i, timeStep)*20;
+        }
     }
-    public double getY(int i, int j)
-    {
-        double debug = (260 + BALL_HEIGHT/2 * (1 + Math.sin((((timeStep * ((i / 500) + 0.02)) % (2 * PI))))));
-        return debug;
+    public int getY(int i, int j)
+    {   double intermediaire = ((timeStep * (i + 0.08)) % (2*Math.PI))/10;
+        double debug = 0 + BALL_HEIGHT * (1 + Math.sin(intermediaire));
+        System.out.println("Valeur de Y calculée pour la point "+i+":"+intermediaire+"  - "+debug);
+        return (int) debug;
     }
 
     @Override
@@ -49,6 +57,12 @@ public class LoadingWavyPanel extends JPanel implements Runnable{
             repaint();
             moveBall();
             removeAll();
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 }
