@@ -8,7 +8,7 @@ import javax.swing.*;
 public class TestPanel extends JFrame {
     public TestPanel() {
         super("Loading Animation Test");
-        setSize(550, 450);
+        setSize(800, 450);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         LoadingWavyPanel animation = new LoadingWavyPanel();
         Container pane = getContentPane();
